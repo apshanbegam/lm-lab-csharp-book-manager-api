@@ -4,7 +4,7 @@ namespace BookManagerApi.Services
 {
 	public class BookManagementService : IBookManagementService
 	{
-        private readonly BookContext _context;
+        private  BookContext _context;
 
         public BookManagementService(BookContext context)
         {
@@ -48,6 +48,20 @@ namespace BookManagerApi.Services
         {
             return _context.Books.Any(b => b.Id == id);
         }
+
+        public bool DeleteBook(long id)
+        {
+            var book = _context.Books.Find(id);
+
+            if (book != null)
+            {
+                _context.Books.Remove(book);
+                _context.SaveChanges();
+                return true;
+            }
+            else return false;
+        }
+
     }
 }
 
